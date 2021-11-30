@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BooksApp from "./App";
+import Main from "./routes/main";
 import Search from "./routes/search";
 
 const rootElement = document.getElementById("root");
@@ -12,16 +13,18 @@ render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BooksApp />} />
-        <Route path="search" element={<Search />} />
-        <Route
-          path="*"
-          element={
-            <main style={{ padding: "1rem" }}>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        />
+        <Route path="/" element={<BooksApp />}>
+          <Route path="search" element={<Search />} />
+          <Route index element={<Main />} />
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
