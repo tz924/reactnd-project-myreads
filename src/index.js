@@ -1,14 +1,31 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
 import "./index.css";
-import BooksApp from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-ReactDOM.render(
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BooksApp from "./App";
+import Search from "./routes/search";
+
+const rootElement = document.getElementById("root");
+render(
   <React.StrictMode>
-    <BooksApp />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<BooksApp />} />
+        <Route path="search" element={<Search />} />
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: "1rem" }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById("root")
+  rootElement
 );
 
 // If you want to start measuring performance in your app, pass a function
