@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import "./BookShelfChanger.scss";
 import PropTypes from "prop-types";
+import shelfContext from "../contexts/shelfContext";
 
 export default function BookShelfChanger(props) {
-  const { bookShelves } = props;
+  const { shelf } = props;
+  const shelves = useContext(shelfContext);
+  const bookShelves = shelves.map((shelf) => shelf.title);
 
   return (
     <div className="book-shelf-changer">
@@ -11,7 +15,7 @@ export default function BookShelfChanger(props) {
           Move to...
         </option>
         {bookShelves.map((bookShelf, i) => (
-          <option key={i} value={bookShelf}>
+          <option key={i} value={bookShelf} selected={bookShelf === shelf}>
             {bookShelf}
           </option>
         ))}
@@ -22,5 +26,5 @@ export default function BookShelfChanger(props) {
 }
 
 BookShelfChanger.propTypes = {
-  bookShelves: PropTypes.arrayOf(PropTypes.string).isRequired,
+  shelf: PropTypes.string.isRequired,
 };

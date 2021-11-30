@@ -3,7 +3,7 @@ import "./BookShelf.scss";
 import PropTypes from "prop-types";
 
 export default function BookShelf(props) {
-  const { title, books, bookShelves } = props;
+  const { title, books } = props;
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
@@ -13,9 +13,9 @@ export default function BookShelf(props) {
             <li key={i}>
               <Book
                 title={book.title}
-                authors={book.authors}
-                style={book.style}
-                bookShelves={bookShelves}
+                authors={book.authors?.join(",") ?? ""}
+                cover={book.imageLinks.thumbnail}
+                shelf={title}
               />
             </li>
           ))}
@@ -28,5 +28,4 @@ export default function BookShelf(props) {
 BookShelf.propTypes = {
   title: PropTypes.string.isRequired,
   books: PropTypes.arrayOf(PropTypes.object).isRequired,
-  bookShelves: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
