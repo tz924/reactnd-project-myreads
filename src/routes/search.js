@@ -17,12 +17,14 @@ export default function Search(props) {
 
   const showingBooks = query.length > 0 ? books : [];
 
-  const search = () => {
-    console.log("search.js: search called");
+  const search = (query) => {
+    console.log(`search.js: search called, query: ${query}`);
+    // Only call api when query in non-empty
     query &&
       BooksAPI.search(query)
         .then((data) => {
           const books = data.error ? [] : data;
+          console.log(books);
           setBooks(books);
         })
         .catch((error) => {
@@ -33,9 +35,7 @@ export default function Search(props) {
   const handleChange = (event) => {
     const query = event.target.value.trim();
     setQuery(query);
-
-    // Only call api when query in non-empty
-    search();
+    search(query);
   };
 
   return (
@@ -43,7 +43,7 @@ export default function Search(props) {
     <div className="search-books">
       <SearchBooksBar query={query} handleChange={handleChange} />
       <div className="search-books-results">
-        <BookGrid books={showingBooks} handleChanger={search} />
+        <BookGrid books={showingBooks} handleChanger={() => search(query)} />
         {error}
       </div>
     </div>

@@ -15,15 +15,14 @@ import "./main.scss";
 
 export default function Main(props) {
   const shelves = useContext(shelfContext);
-  const [books, setBooks] = useState([]);
+  const [booksOnShelf, setBooksOnShelf] = useState([]);
   const [error, setError] = useState("");
 
   const getBooks = () => {
     console.log("main.js: getBooks called");
     BooksAPI.getAll()
       .then((books) => {
-        console.log(books);
-        setBooks(books);
+        setBooksOnShelf(books);
       })
       .catch((error) => {
         setError(`ERROR: ${error.message}`);
@@ -44,7 +43,7 @@ export default function Main(props) {
             <BookShelf
               key={i}
               title={shelf.title}
-              books={books.filter((book) => book.shelf === shelf.param)}
+              books={booksOnShelf.filter((book) => book.shelf === shelf.param)}
               onUpdate={getBooks}
             />
           ))}
