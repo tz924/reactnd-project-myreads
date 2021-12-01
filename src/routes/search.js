@@ -64,6 +64,7 @@ export default function Search(props) {
             // Sync books on shelf
             getBooksOnShelf();
           }}
+          readOnly
         />
         {error}
       </div>

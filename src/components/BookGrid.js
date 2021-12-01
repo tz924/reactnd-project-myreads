@@ -2,8 +2,12 @@ import Book from "../components/Book";
 import PropTypes from "prop-types";
 import "./BookGrid.scss";
 
-export default function BookGrid(props) {
-  const { books, handleChanger } = props;
+export default function BookGrid({ books, handleChanger, readOnly }) {
+  const getRating = (id) => {
+    const book = localStorage.getItem(id);
+    if (book) return JSON.parse(book).rating;
+    return null;
+  };
 
   return (
     <ol className="books-grid">
@@ -15,7 +19,9 @@ export default function BookGrid(props) {
             authors={book.authors || []}
             cover={book.imageLinks?.thumbnail ?? ""}
             shelf={book.shelf || "none"}
+            ratingAverage={getRating(book.id) || book.averageRating}
             updateUIOnSelect={handleChanger}
+            readOnly={readOnly}
           />
         </li>
       ))}

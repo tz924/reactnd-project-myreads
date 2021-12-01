@@ -14,6 +14,9 @@ export default function Main(props) {
   const { onShelf, shelves } = useContext(AppContext);
   const [booksOnShelf, , getBooksOnShelf] = onShelf;
 
+  console.log("main.js");
+  console.log(booksOnShelf);
+
   return (
     // List Books
     <div className="list-books">

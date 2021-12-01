@@ -9,10 +9,21 @@ import BookShelfChanger from "./BookShelfChanger";
 // Styles
 import "./Book.scss";
 
-export default function Book(props) {
-  const { id, title, authors, cover, shelf, updateUIOnSelect } = props;
-
-  const [rating, setRating] = useState(0);
+export default function Book({
+  id,
+  title,
+  authors,
+  cover,
+  shelf,
+  ratingAverage,
+  updateUIOnSelect,
+  readOnly = false,
+}) {
+  const [rating, setRating] = useState(ratingAverage);
+  const updateRating = (newRating) => {
+    setRating(newRating);
+    localStorage.setItem(id, JSON.stringify({ rating: newRating }));
+  };
 
   return (
     <div className="book">
@@ -27,13 +38,17 @@ export default function Book(props) {
       </div>
       <div className="book-title">{title}</div>
       <div className="book-authors">{authors?.join(", ") ?? ""}</div>
-      <Rating
-        name="simple-controlled"
-        value={rating}
-        onChange={(event, newRating) => {
-          setRating(newRating);
-        }}
-      />
+      {readOnly ? (
+        <Rating name="read-only" value={rating} readOnly />
+      ) : (
+        <Rating
+          name="simple-controlled"
+          value={rating}
+          onChange={(_, newRating) => {
+            updateRating(newRating);
+          }}
+        />
+      )}
     </div>
   );
 }

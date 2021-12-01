@@ -153,3 +153,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### EXTRA
+1. Ratings
+    - Display average ratings for all books.
+    - Books without ratings will be rated at 0.
+    - Rating on the main page is modifiable.
+    - Rating on the search page is read only.
+2. Horizontal Scroll for main page.
+3. Batch move
+4. Modified menu

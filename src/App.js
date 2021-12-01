@@ -17,7 +17,18 @@ export default function BooksApp() {
   const getBooksOnShelf = () => {
     BooksAPI.getAll()
       .then((books) => {
-        setBooksOnShelf(books);
+        let newBooks = booksOnShelf.map((b) => b);
+        books.forEach((book) => {
+          const bookOnShelf = newBooks.find((bos) => bos.id === book.id);
+          if (bookOnShelf) {
+            // update book
+            bookOnShelf.shelf = book.shelf;
+          } else {
+            newBooks.push(book);
+          }
+        });
+
+        setBooksOnShelf(newBooks);
       })
       .catch((error) => {
         setError(`ERROR: ${error.message}`);
@@ -25,8 +36,16 @@ export default function BooksApp() {
   };
 
   useEffect(() => {
-    getBooksOnShelf();
-  }, []);
+    booksOnShelf.length === 0 &&
+      BooksAPI.getAll()
+        .then((books) => {
+          setBooksOnShelf(books);
+        })
+        .catch((error) => {
+          setError(`ERROR: ${error.message}`);
+        });
+  }, [booksOnShelf]);
+
 
   return (
     <AppContext.Provider
