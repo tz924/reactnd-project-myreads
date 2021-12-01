@@ -1,14 +1,16 @@
 import { useContext } from "react";
 import "./BookShelfChanger.scss";
 import PropTypes from "prop-types";
-import shelfContext from "../contexts/shelfContext";
+
+// Context
+import AppContext from "../contexts/AppContext";
 
 // API
 import * as BooksAPI from "../api/BooksAPI";
 
 export default function BookShelfChanger(props) {
-  const { book, handleSelect } = props;
-  const shelves = useContext(shelfContext);
+  const { book, updateUIOnSelect } = props;
+  const { shelves } = useContext(AppContext);
 
   return (
     <div className="book-shelf-changer">
@@ -17,8 +19,8 @@ export default function BookShelfChanger(props) {
         onChange={(event) => {
           const newShelf = event.target.value;
           BooksAPI.update({ id: book.id }, newShelf).then(() => {
-            // Update books
-            handleSelect();
+            // Update UI
+            updateUIOnSelect();
           });
         }}
       >
@@ -38,4 +40,5 @@ export default function BookShelfChanger(props) {
 
 BookShelfChanger.propTypes = {
   book: PropTypes.object.isRequired,
+  updateUIOnSelect: PropTypes.func.isRequired,
 };

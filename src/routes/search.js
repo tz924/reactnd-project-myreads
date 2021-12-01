@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import "./search.scss";
+
+// Context
+import AppContext from "../contexts/AppContext";
 
 // Components
 import BookGrid from "../components/BookGrid";
@@ -15,16 +18,14 @@ export default function Search(props) {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState("");
 
-  const showingBooks = query.length > 0 ? books : [];
+  const [booksOnShelf, , getBooksOnShelf] = useContext(AppContext).onShelf;
 
   const search = (query) => {
-    console.log(`search.js: search called, query: ${query}`);
     // Only call api when query in non-empty
     query &&
       BooksAPI.search(query)
         .then((data) => {
           const books = data.error ? [] : data;
-          console.log(books);
           setBooks(books);
         })
         .catch((error) => {
@@ -38,12 +39,32 @@ export default function Search(props) {
     search(query);
   };
 
+  const showingBooks =
+    query.length > 0
+      ? books.map((book) => {
+          // If book on shelf, sync shelf status
+          booksOnShelf.forEach((bookOnShelf) => {
+            if (bookOnShelf.id === book.id) book.shelf = bookOnShelf.shelf;
+          });
+
+          return book;
+        })
+      : [];
+
   return (
     // Search Page
     <div className="search-books">
       <SearchBooksBar query={query} handleChange={handleChange} />
       <div className="search-books-results">
-        <BookGrid books={showingBooks} handleChanger={() => search(query)} />
+        <BookGrid
+          books={showingBooks}
+          handleChanger={() => {
+            // Update results
+            search(query);
+            // Sync books on shelf
+            getBooksOnShelf();
+          }}
+        />
         {error}
       </div>
     </div>

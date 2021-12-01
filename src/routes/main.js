@@ -1,35 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 // Components
 import BookShelf from "../components/BookShelf";
 
 // Context
-import shelfContext from "../contexts/shelfContext";
-
-// API
-import * as BooksAPI from "../api/BooksAPI";
+import AppContext from "../contexts/AppContext";
 
 // Styles
 import "./main.scss";
 
 export default function Main(props) {
-  const shelves = useContext(shelfContext);
-  const [booksOnShelf, setBooksOnShelf] = useState([]);
-  const [error, setError] = useState("");
-
-  const getBooks = () => {
-    console.log("main.js: getBooks called");
-    BooksAPI.getAll()
-      .then((books) => {
-        setBooksOnShelf(books);
-      })
-      .catch((error) => {
-        setError(`ERROR: ${error.message}`);
-      });
-  };
-
-  useEffect(getBooks, []);
+  const { onShelf, shelves } = useContext(AppContext);
+  const [booksOnShelf, , getBooksOnShelf] = onShelf;
 
   return (
     // List Books
@@ -44,10 +27,9 @@ export default function Main(props) {
               key={i}
               title={shelf.title}
               books={booksOnShelf.filter((book) => book.shelf === shelf.param)}
-              onUpdate={getBooks}
+              onUpdate={getBooksOnShelf}
             />
           ))}
-          {error}
         </div>
       </div>
       <div className="open-search">

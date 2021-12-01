@@ -15,7 +15,7 @@ export default function BookGrid(props) {
             authors={book.authors || []}
             cover={book.imageLinks?.thumbnail ?? ""}
             shelf={book.shelf || "none"}
-            handleChanger={handleChanger}
+            updateUIOnSelect={handleChanger}
           />
         </li>
       ))}
@@ -25,4 +25,5 @@ export default function BookGrid(props) {
 
 BookGrid.propTypes = {
   books: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleChanger: PropTypes.func.isRequired,
 };
