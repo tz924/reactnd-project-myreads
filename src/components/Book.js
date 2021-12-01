@@ -29,7 +29,9 @@ export default function Book({
   return (
     <div className="book">
       <div className="book-top">
-        <Checkbox className="Checkbox" value={id} />
+        <div className="book-overlay">
+          <Checkbox className="Checkbox" value={id} />
+        </div>
         <div className="book-cover">
           <img src={cover || empty} alt={title} />
         </div>

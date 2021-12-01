@@ -8,6 +8,7 @@ import AppContext from "../contexts/AppContext";
 // Components
 import BookGrid from "../components/BookGrid";
 import SearchBooksBar from "../components/SearchBooksBar";
+import BatchShelfChanger from "../components/BatchShelfChanger";
 
 // API
 import * as BooksAPI from "../api/BooksAPI";
@@ -56,6 +57,7 @@ export default function Search(props) {
     <div className="search-books">
       <SearchBooksBar query={query} handleChange={handleChange} />
       <div className="search-books-results">
+        {!(showingBooks.length === 0) && <BatchShelfChanger />}
         <BookGrid
           books={showingBooks}
           handleChanger={() => {
