@@ -4,6 +4,7 @@ import empty from "../assets/images/empty.png";
 
 // Components
 import Rating from "@mui/material/Rating";
+import Checkbox from "@mui/material/Checkbox";
 import BookShelfChanger from "./BookShelfChanger";
 
 // Styles
@@ -28,6 +29,7 @@ export default function Book({
   return (
     <div className="book">
       <div className="book-top">
+        <Checkbox className="Checkbox" value={id} />
         <div className="book-cover">
           <img src={cover || empty} alt={title} />
         </div>

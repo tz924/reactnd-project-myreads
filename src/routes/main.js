@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 // Components
 import BookShelf from "../components/BookShelf";
+import BatchShelfChanger from "../components/BatchShelfChanger";
 
 // Context
 import AppContext from "../contexts/AppContext";
@@ -23,6 +24,7 @@ export default function Main(props) {
       <div className="list-books-title">
         <h1>MyReads</h1>
       </div>
+      <BatchShelfChanger updateUIOnBatchSelect={getBooksOnShelf} />
       <div className="list-books-content">
         {shelves.map((shelf, i) => (
           <BookShelf
