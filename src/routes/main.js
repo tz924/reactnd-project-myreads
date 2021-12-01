@@ -39,7 +39,7 @@ export default function Main(props) {
             <BookShelf
               key={i}
               title={shelf.title}
-              books={books.filter((book) => book.shelf === shelf.shelf)}
+              books={books.filter((book) => book.shelf === shelf.param)}
             />
           ))}
         </div>

@@ -3,12 +3,16 @@ import { useState } from "react";
 import "./search.scss";
 
 // Components
-import Book from "../components/Book";
+import BookGrid from "../components/BookGrid";
 import SearchBooksBar from "../components/SearchBooksBar";
+
+// API
+import * as BooksAPI from "../api/BooksAPI";
 
 export default function Search(props) {
   const [query, setQuery] = useState("");
   const [books, setBooks] = useState([]);
+  const showingBooks = query.length > 0 ? books : [];
 
   return (
     // Search Page
@@ -16,27 +20,23 @@ export default function Search(props) {
       <SearchBooksBar
         query={query}
         handleChange={(event) => {
-          setQuery(event.target.value);
-        }}
-        handleSearch={(books) => {
-          setBooks(books);
+          const query = event.target.value.trim();
+          setQuery(query);
+
+          // Only call api when query in non-empty
+          query &&
+            BooksAPI.search(query)
+              .then((data) => {
+                const books = data.error ? [] : data;
+                setBooks(books);
+              })
+              .catch((error) => {
+                console.log(`ERROR: ${error.message}`);
+              });
         }}
       />
       <div className="search-books-results">
-        <ol className="books-grid">
-          {books.length > 0 &&
-            books.map((book, i) => (
-              <li key={i}>
-                {/* TODO read for now */}
-                <Book
-                  title={book.title}
-                  authors={book.authors.join(",")}
-                  cover={book.imageLinks.thumbnail}
-                  shelf={`read`}
-                />
-              </li>
-            ))}
-        </ol>
+        <BookGrid books={showingBooks} />
       </div>
     </div>
   );

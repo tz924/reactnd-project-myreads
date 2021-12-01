@@ -9,9 +9,9 @@ export default function BooksApp() {
   return (
     <shelfContext.Provider
       value={[
-        { shelf: "currentlyReading", title: "Currently Reading" },
-        { shelf: "wantToRead", title: "Wanted to Read" },
-        { shelf: "read", title: "Read" },
+        { param: "currentlyReading", title: "Currently Reading" },
+        { param: "wantToRead", title: "Wanted to Read" },
+        { param: "read", title: "Read" },
       ]}
     >
       <div className="App">

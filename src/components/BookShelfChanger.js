@@ -4,19 +4,19 @@ import PropTypes from "prop-types";
 import shelfContext from "../contexts/shelfContext";
 
 export default function BookShelfChanger(props) {
-  const { shelf } = props;
+  const { book } = props;
   const shelves = useContext(shelfContext);
-  const bookShelves = shelves.map((shelf) => shelf.title);
+  console.log(book);
 
   return (
     <div className="book-shelf-changer">
-      <select>
+      <select defaultValue={book.shelf}>
         <option value="move" disabled>
           Move to...
         </option>
-        {bookShelves.map((bookShelf, i) => (
-          <option key={i} value={bookShelf} selected={bookShelf === shelf}>
-            {bookShelf}
+        {shelves.map((shelf, i) => (
+          <option key={i} value={shelf.param}>
+            {shelf.title}
           </option>
         ))}
         <option value="none">None</option>
@@ -26,5 +26,5 @@ export default function BookShelfChanger(props) {
 }
 
 BookShelfChanger.propTypes = {
-  shelf: PropTypes.string.isRequired,
+  book: PropTypes.object.isRequired,
 };

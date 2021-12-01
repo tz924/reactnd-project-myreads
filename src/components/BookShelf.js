@@ -1,6 +1,10 @@
-import Book from "../components/Book";
-import "./BookShelf.scss";
 import PropTypes from "prop-types";
+
+// Components
+import BookGrid from "../components/BookGrid";
+
+// Styles
+import "./BookShelf.scss";
 
 export default function BookShelf(props) {
   const { title, books } = props;
@@ -8,18 +12,7 @@ export default function BookShelf(props) {
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
       <div className="bookshelf-books">
-        <ol className="books-grid">
-          {books.map((book, i) => (
-            <li key={i}>
-              <Book
-                title={book.title}
-                authors={book.authors?.join(",") ?? ""}
-                cover={book.imageLinks.thumbnail}
-                shelf={title}
-              />
-            </li>
-          ))}
-        </ol>
+        <BookGrid books={books} />
       </div>
     </div>
   );
