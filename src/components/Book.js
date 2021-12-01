@@ -1,10 +1,18 @@
-import "./Book.scss";
-import BookShelfChanger from "./BookShelfChanger";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import empty from "../assets/images/empty.png";
 
+// Components
+import Rating from "@mui/material/Rating";
+import BookShelfChanger from "./BookShelfChanger";
+
+// Styles
+import "./Book.scss";
+
 export default function Book(props) {
   const { id, title, authors, cover, shelf, updateUIOnSelect } = props;
+
+  const [rating, setRating] = useState(0);
 
   return (
     <div className="book">
@@ -19,6 +27,13 @@ export default function Book(props) {
       </div>
       <div className="book-title">{title}</div>
       <div className="book-authors">{authors?.join(", ") ?? ""}</div>
+      <Rating
+        name="simple-controlled"
+        value={rating}
+        onChange={(event, newRating) => {
+          setRating(newRating);
+        }}
+      />
     </div>
   );
 }

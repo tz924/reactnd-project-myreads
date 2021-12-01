@@ -21,16 +21,14 @@ export default function Main(props) {
         <h1>MyReads</h1>
       </div>
       <div className="list-books-content">
-        <div>
-          {shelves.map((shelf, i) => (
-            <BookShelf
-              key={i}
-              title={shelf.title}
-              books={booksOnShelf.filter((book) => book.shelf === shelf.param)}
-              onUpdate={getBooksOnShelf}
-            />
-          ))}
-        </div>
+        {shelves.map((shelf, i) => (
+          <BookShelf
+            key={i}
+            title={shelf.title}
+            books={booksOnShelf.filter((book) => book.shelf === shelf.param)}
+            onUpdate={getBooksOnShelf}
+          />
+        ))}
       </div>
       <div className="open-search">
         <Link to="/search">
