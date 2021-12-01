@@ -3,14 +3,25 @@ import "./BookShelfChanger.scss";
 import PropTypes from "prop-types";
 import shelfContext from "../contexts/shelfContext";
 
+// API
+import * as BooksAPI from "../api/BooksAPI";
+
 export default function BookShelfChanger(props) {
-  const { book } = props;
+  const { book, handleSelect } = props;
   const shelves = useContext(shelfContext);
-  console.log(book);
 
   return (
     <div className="book-shelf-changer">
-      <select defaultValue={book.shelf}>
+      <select
+        defaultValue={book.shelf}
+        onChange={(event) => {
+          const newShelf = event.target.value;
+          BooksAPI.update({ id: book.id }, newShelf).then(() => {
+            // Update books
+            handleSelect();
+          });
+        }}
+      >
         <option value="move" disabled>
           Move to...
         </option>

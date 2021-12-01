@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import empty from "../assets/images/empty.png";
 
 export default function Book(props) {
-  const { id, title, authors, cover, shelf } = props;
+  const { id, title, authors, cover, shelf, handleChanger } = props;
 
   return (
     <div className="book">
@@ -12,7 +12,9 @@ export default function Book(props) {
         <div className="book-cover">
           <img src={cover || empty} alt={title} />
         </div>
-        <BookShelfChanger book={{id: id, shelf: shelf}} />
+        <BookShelfChanger book={{id: id, shelf: shelf}} 
+          handleSelect={handleChanger}
+        />
       </div>
       <div className="book-title">{title}</div>
       <div className="book-authors">{authors?.join(", ") ?? ""}</div>

@@ -1,8 +1,9 @@
 import Book from "../components/Book";
 import PropTypes from "prop-types";
+import "./BookGrid.scss";
 
 export default function BookGrid(props) {
-  const { books } = props;
+  const { books, handleChanger } = props;
 
   return (
     <ol className="books-grid">
@@ -14,6 +15,7 @@ export default function BookGrid(props) {
             authors={book.authors || []}
             cover={book.imageLinks?.thumbnail ?? ""}
             shelf={book.shelf || "none"}
+            handleChanger={handleChanger}
           />
         </li>
       ))}
