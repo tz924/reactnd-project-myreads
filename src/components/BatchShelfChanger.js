@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Button, ToggleButton, ButtonGroup } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
+import { SelectAll } from "@mui/icons-material";
 
 // Context
 import AppContext from "../contexts/AppContext";
@@ -15,9 +15,15 @@ export default function BatchShelfChanger({ updateUIOnBatchSelect }) {
   const [selected, setSelected] = useState(false);
   const { shelves } = useContext(AppContext);
   const toggleSelections = () => {
-    const display = selected ? "none" : "block";
+    setSelected(!selected);
 
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    // TODO Reset: uncheck all checkboxes
+    checkboxes.forEach((checkbox) => {
+      checkbox.parentElement.classList.remove("Mui-checked");
+    });
+
+    const display = selected ? "none" : "inline-flex";
     checkboxes.forEach((checkbox) => {
       const MUICheckbox = checkbox.parentElement;
       const bookOverlay = MUICheckbox.parentElement;
@@ -66,14 +72,12 @@ export default function BatchShelfChanger({ updateUIOnBatchSelect }) {
       </ButtonGroup>
 
       <ToggleButton
+        className="batch-select-toggle"
         value="check"
         selected={selected}
-        onChange={() => {
-          setSelected(!selected);
-          toggleSelections();
-        }}
+        onChange={toggleSelections}
       >
-        <CheckIcon />
+        <SelectAll fontSize="large" />
       </ToggleButton>
     </div>
   );

@@ -40,6 +40,13 @@ export default function Search(props) {
     search(query);
   };
 
+  const updateSearchUI = () => {
+    // Update results
+    search(query);
+    // Sync books on shelf
+    getBooksOnShelf();
+  };
+
   const showingBooks =
     query.length > 0
       ? books.map((book) => {
@@ -57,15 +64,12 @@ export default function Search(props) {
     <div className="search-books">
       <SearchBooksBar query={query} handleChange={handleChange} />
       <div className="search-books-results">
-        {!(showingBooks.length === 0) && <BatchShelfChanger />}
+        {!(showingBooks.length === 0) && (
+          <BatchShelfChanger updateUIOnBatchSelect={updateSearchUI} />
+        )}
         <BookGrid
           books={showingBooks}
-          handleChanger={() => {
-            // Update results
-            search(query);
-            // Sync books on shelf
-            getBooksOnShelf();
-          }}
+          handleChanger={updateSearchUI}
           readOnly
         />
         {error}
