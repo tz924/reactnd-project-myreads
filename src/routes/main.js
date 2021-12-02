@@ -15,9 +15,6 @@ export default function Main(props) {
   const { onShelf, shelves } = useContext(AppContext);
   const [booksOnShelf, , getBooksOnShelf] = onShelf;
 
-  console.log("main.js");
-  console.log(booksOnShelf);
-
   return (
     // List Books
     <div className="list-books">
@@ -26,15 +23,20 @@ export default function Main(props) {
       </div>
       <BatchShelfChanger updateUIOnBatchSelect={getBooksOnShelf} />
       <div className="list-books-content">
-        {shelves.map((shelf, i) => (
-          <BookShelf
-            key={i}
-            title={shelf.title}
-            books={booksOnShelf.filter((book) => book.shelf === shelf.param)}
-            onUpdate={getBooksOnShelf}
-            inline={true}
-          />
-        ))}
+        {shelves.map(
+          (shelf, i) =>
+            shelf.param !== "none" && (
+              <BookShelf
+                key={i}
+                title={shelf.title}
+                books={booksOnShelf.filter(
+                  (book) => book.shelf === shelf.param
+                )}
+                onUpdate={getBooksOnShelf}
+                inline={true}
+              />
+            )
+        )}
       </div>
       <div className="open-search">
         <Link to="/search">

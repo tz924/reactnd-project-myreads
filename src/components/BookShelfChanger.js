@@ -54,9 +54,6 @@ export default function BookShelfChanger({ book, updateUIOnSelect, inline }) {
               {shelf.param === book.shelf && ` ✓`}
             </Button>
           ))}
-          <Button color="black" value="none">
-            None
-          </Button>
         </ButtonGroup>
       </ThemeProvider>
     </div>
@@ -69,9 +66,9 @@ export default function BookShelfChanger({ book, updateUIOnSelect, inline }) {
         {shelves.map((shelf, i) => (
           <option key={i} value={shelf.param}>
             {shelf.title}
+            {shelf.param === book.shelf && ` ✓`}
           </option>
         ))}
-        <option value="none">None</option>
       </select>
     </div>
   );

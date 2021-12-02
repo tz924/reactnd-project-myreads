@@ -46,7 +46,6 @@ export default function BooksApp() {
         });
   }, [booksOnShelf]);
 
-
   return (
     <AppContext.Provider
       value={{
@@ -55,6 +54,7 @@ export default function BooksApp() {
           { param: "currentlyReading", title: "Currently Reading" },
           { param: "wantToRead", title: "Wanted to Read" },
           { param: "read", title: "Read" },
+          { param: "none", title: "None" },
         ],
       }}
     >
