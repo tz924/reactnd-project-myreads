@@ -35,36 +35,40 @@ export default function BatchShelfChanger({ updateUIOnBatchSelect }) {
     buttons.style.display = selected ? "none" : "inline-flex";
   };
 
+  const handleBatchUpdate = (event) => {
+    const newShelf = event.target.value;
+    const booksSelected = Array.from(
+      document.querySelectorAll('input[type="checkbox"]:checked')
+    );
+    booksSelected.forEach((book) => {
+      const bookId = book.value;
+      BooksAPI.update({ id: bookId }, newShelf).then(() => {
+        console.log(`${bookId} moved to ${newShelf}`);
+
+        // Update UI
+        updateUIOnBatchSelect();
+      });
+    });
+
+    setSelected(false);
+    toggleSelections();
+  };
+
   return (
     <div className="batch-select">
       <ButtonGroup
-        variant="contained"
-        aria-label="outlined primary button group"
+        variant="text"
+        aria-label="text button group"
         className="batch-select-buttons"
       >
         {shelves.map((shelf, index) => (
           <Button
-            variant="outlined"
+            variant="text"
             key={index}
             value={shelf.param}
-            onClick={(event) => {
-              const newShelf = event.target.value;
-              const booksSelected = Array.from(
-                document.querySelectorAll('input[type="checkbox"]:checked')
-              );
-              booksSelected.forEach((book) => {
-                const bookId = book.value;
-                BooksAPI.update({ id: bookId }, newShelf).then(() => {
-                  console.log(`${bookId} moved to ${newShelf}`);
-
-                  // Update UI
-                  updateUIOnBatchSelect();
-                });
-              });
-
-              setSelected(false);
-              toggleSelections();
-            }}
+            onClick={handleBatchUpdate}
+            size="large"
+            color="secondary"
           >
             {shelf.title}
           </Button>

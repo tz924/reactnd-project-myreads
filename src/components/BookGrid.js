@@ -2,7 +2,9 @@ import Book from "../components/Book";
 import PropTypes from "prop-types";
 import "./BookGrid.scss";
 
-export default function BookGrid({ books, handleChanger, readOnly }) {
+export default function BookGrid({ books, handleChanger, readOnly, inline }) {
+  console.log(`BookGrid.js: ${inline}`);
+
   const getRating = (id) => {
     const book = localStorage.getItem(id);
     if (book) return JSON.parse(book).rating;
@@ -22,6 +24,7 @@ export default function BookGrid({ books, handleChanger, readOnly }) {
             ratingAverage={getRating(book.id) || book.averageRating}
             updateUIOnSelect={handleChanger}
             readOnly={readOnly}
+            inline={inline}
           />
         </li>
       ))}

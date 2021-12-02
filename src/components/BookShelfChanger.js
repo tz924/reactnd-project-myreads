@@ -1,5 +1,6 @@
-import { useContext } from "react";
-import "./BookShelfChanger.scss";
+import { useContext, useState } from "react";
+import { Button, ToggleButton, ButtonGroup } from "@mui/material";
+
 import PropTypes from "prop-types";
 
 // Context
@@ -8,22 +9,60 @@ import AppContext from "../contexts/AppContext";
 // API
 import * as BooksAPI from "../api/BooksAPI";
 
-export default function BookShelfChanger(props) {
-  const { book, updateUIOnSelect } = props;
-  const { shelves } = useContext(AppContext);
+// Style
+import "./BookShelfChanger.scss";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-  return (
+const theme = createTheme({
+  palette: {
+    black: {
+      main: "#000",
+      contrastText: "#fff",
+    },
+  },
+});
+
+export default function BookShelfChanger({ book, updateUIOnSelect, inline }) {
+  console.log(`BookShelfChanger.js: ${inline}`);
+
+  const { shelves } = useContext(AppContext);
+  const onShelfChange = (event) => {
+    const newShelf = event.target.value;
+    BooksAPI.update({ id: book.id }, newShelf).then(() => {
+      // Update UI
+      updateUIOnSelect();
+    });
+  };
+
+  return inline ? (
+    <div className="book-shelf-changer-inline">
+      <ThemeProvider theme={theme}>
+        <ButtonGroup
+          orientation="vertical"
+          aria-label="vertical contained button group"
+          variant="text"
+          color="black"
+        >
+          {shelves.map((shelf, i) => (
+            <Button
+              key={i}
+              value={shelf.param}
+              onClick={onShelfChange}
+              color="black"
+            >
+              {shelf.title}
+              {shelf.param === book.shelf && ` ✓`}
+            </Button>
+          ))}
+          <Button color="black" value="none">
+            None
+          </Button>
+        </ButtonGroup>
+      </ThemeProvider>
+    </div>
+  ) : (
     <div className="book-shelf-changer">
-      <select
-        defaultValue={book.shelf}
-        onChange={(event) => {
-          const newShelf = event.target.value;
-          BooksAPI.update({ id: book.id }, newShelf).then(() => {
-            // Update UI
-            updateUIOnSelect();
-          });
-        }}
-      >
+      <select defaultValue={book.shelf} onChange={onShelfChange}>
         <option value="move" disabled>
           Move to...
         </option>

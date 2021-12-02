@@ -22,7 +22,7 @@ export default function Main(props) {
     // List Books
     <div className="list-books">
       <div className="list-books-title">
-        <h1>MyReads</h1>
+        <h1>Awesome MyReads</h1>
       </div>
       <BatchShelfChanger updateUIOnBatchSelect={getBooksOnShelf} />
       <div className="list-books-content">
@@ -32,6 +32,7 @@ export default function Main(props) {
             title={shelf.title}
             books={booksOnShelf.filter((book) => book.shelf === shelf.param)}
             onUpdate={getBooksOnShelf}
+            inline={true}
           />
         ))}
       </div>

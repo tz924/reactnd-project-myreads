@@ -19,7 +19,10 @@ export default function Book({
   ratingAverage,
   updateUIOnSelect,
   readOnly = false,
+  inline,
 }) {
+  console.log(`Book.js: ${inline}`);
+  const [show, setShow] = useState(false);
   const [rating, setRating] = useState(ratingAverage);
   const updateRating = (newRating) => {
     setRating(newRating);
@@ -28,17 +31,24 @@ export default function Book({
 
   return (
     <div className="book">
-      <div className="book-top">
+      <div
+        className="book-top"
+        onMouseEnter={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+      >
         <div className="book-overlay">
           <Checkbox className="Checkbox" value={id} />
         </div>
         <div className="book-cover">
           <img src={cover || empty} alt={title} />
         </div>
-        <BookShelfChanger
-          book={{ id: id, shelf: shelf }}
-          updateUIOnSelect={updateUIOnSelect}
-        />
+        {show && (
+          <BookShelfChanger
+            book={{ id: id, shelf: shelf }}
+            updateUIOnSelect={updateUIOnSelect}
+            inline={inline}
+          />
+        )}
       </div>
       <div className="book-title">{title}</div>
       <div className="book-authors">{authors?.join(", ") ?? ""}</div>
